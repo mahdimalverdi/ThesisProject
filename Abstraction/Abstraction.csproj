@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>ThesisProject.Abstraction</RootNamespace>
+    <AssemblyName>ThesisProject.Abstraction</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CharCode.Base" Version="1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
