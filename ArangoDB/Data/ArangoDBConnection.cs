@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using ThesisProject.ArangoDB.Classes;
+using ThesisProject.ArangoDB.Data.Classes.Requests;
+using ThesisProject.ArangoDB.Data.Classes.Responses;
+using ThesisProject.ArangoDB.Data.Data;
 
-namespace ThesisProject.ArangoDB
+namespace ThesisProject.ArangoDB.Data
 {
     public class ArangoDBConnection : IDisposable
     {
@@ -46,12 +49,12 @@ namespace ThesisProject.ArangoDB
 
             var data = new AuthenticationRequest()
             {
-                Username = this.options.Username,
-                Password = this.options.Password
+                username = this.options.Username,
+                password = this.options.Password
             };
             var result = await command.ExecuteAsync<AuthenticationRequest, AuthenticationResponse>(data);
 
-            this.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Scheme, result.Jwt);
+            this.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Scheme, result.jwt);
         }
 
     }

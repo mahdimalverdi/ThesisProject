@@ -7,6 +7,5 @@ namespace ThesisProject.Contracts.Instances
 {
     public class EntityInstance : BaseInstance
     {
-        public new EntityElement Element { get { return base.Element as EntityElement; } set { base.Element = value; } }
     }
 }

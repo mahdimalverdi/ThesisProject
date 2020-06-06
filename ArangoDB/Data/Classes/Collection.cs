@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ThesisProject.ArangoDB.Classes
+namespace ThesisProject.ArangoDB.Data.Classes
 {
     public class Collection
     {

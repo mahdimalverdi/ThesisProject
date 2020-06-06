@@ -1,24 +1,22 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ThesisProject.ArangoDB
+namespace ThesisProject.ArangoDB.Data.Data
 {
     public class ArangoDBCommand : IDisposable
     {
         private readonly HttpRequestMessage request;
+
         public ArangoDBCommand(ArangoDBConnection connection, HttpMethod httpMethod, string commandUri)
         {
             Connection = connection ?? throw new ArgumentNullException(nameof(connection));
             HttpMethod = httpMethod ?? throw new ArgumentNullException(nameof(httpMethod));
             CommandUri = commandUri ?? throw new ArgumentNullException(nameof(commandUri));
 
-            this.request = GetRequest();
+            request = GetRequest();
         }
 
         public ArangoDBConnection Connection { get; private set; }
@@ -55,45 +53,35 @@ namespace ThesisProject.ArangoDB
 
         private async Task Execute()
         {
-            await this.Connection.HttpClient.SendAsync(request);
+            await Connection.HttpClient.SendAsync(request);
         }
 
         private HttpRequestMessage GetRequest()
         {
-            return new HttpRequestMessage(HttpMethod, this.CommandUri);
+            return new HttpRequestMessage(HttpMethod, CommandUri);
         }
 
         private async Task<TOut> ExecuteWithResultAsync<TOut>()
         {
-            var response = await this.Connection.HttpClient.SendAsync(request);
+            var response = await Connection.HttpClient.SendAsync(request);
 
-            var value = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<TOut>(value);
+            var stream = await response.Content.ReadAsStreamAsync();
+            var result = await JsonSerializer.DeserializeAsync<TOut>(stream);
 
             return result;
         }
 
-        private static StringContent GetContent<T>(T data)
+        private StringContent GetContent<T>(T data)
         {
-            DefaultContractResolver contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
+            var json = JsonSerializer.Serialize(data);
 
-            var settings = new JsonSerializerSettings()
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.Indented
-            };
-
-            var json = JsonConvert.SerializeObject(data, settings);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             return content;
         }
 
         public void Dispose()
         {
-            this.request.Dispose();
+            request.Dispose();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ThesisProject.Contracts
     {
         public long AttributeId { get; set; }
 
-        public List<object> Value { get; set; }
+        public HashSet<object> Values { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -30,6 +30,6 @@ namespace ThesisProject.Contracts
 
     public abstract class BaseAttributeValue<T> : BaseAttributeValue
     {
-        public new List<T> Value { get { return base.Value.Cast<T>().ToList(); } set{ base.Value = value.Cast<object>().ToList(); } }
+        public new HashSet<T> Values { get { return base.Values.Cast<T>().ToHashSet(); } set{ base.Values = value.Cast<object>().ToHashSet(); } }
     }
 }

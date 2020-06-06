@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ThesisProject.ArangoDB.Classes
+namespace ThesisProject.ArangoDB.Data.Classes.Responses
 {
     public class AuthenticationResponse
     {
-        public string Jwt { get; set; }
+        public string jwt { get; set; }
     }
 }

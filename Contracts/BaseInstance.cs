@@ -9,7 +9,7 @@ namespace ThesisProject.Contracts
     {
         public Guid Id { get; set; }
 
-        public BaseElement Element { get; set; }
+        public long ElementId { get; set; }
 
         public HashSet<BaseAttributeValue> AttributeValues { get; set; }
     }
