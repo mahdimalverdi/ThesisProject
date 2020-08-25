@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
-using ThesisProject.ArangoDB.Data;
+using ThesisProject.ArangoDB;
 using ThesisProject.ArangoDB.Data.Classes.Requests;
-using ThesisProject.ArangoDB.Data.Data;
-using ThesisProject.ArangoDB.Data.Repositories;
 using ThesisProject.Contracts;
-using ThesisProject.Contracts.AttributeValues;
-using ThesisProject.Contracts.Elements;
-using ThesisProject.Contracts.Instances;
+using Utility;
+using ThesisProject.Benchmark;
+using ThesisProject.Abstraction.Instances;
 
 namespace ThesisProject
 {
@@ -22,51 +17,49 @@ namespace ThesisProject
             public BaseInstance Instance { get; set; }
         }
 
-        static async System.Threading.Tasks.Task Main(string[] args)
+        static async Task Main(string[] args)
         {
-            var builder = new ArangoDBConnectionOptionsBuilder("http://185.97.118.66:8529/", "root", @"e)btg<JF\\G8(~F.s");
-            using var connection = new ArangoDBConnection(builder.Options);
-            await connection.ConnectAsync();
-
-            var repository = new DocumentRepository(connection, "Entities");
-
-            Random random = new Random();
-
-            Stopwatch stopwatch = new Stopwatch();
-            var requests = new List<AddEntityRequest>();
-
-            int count = int.Parse(Console.ReadLine());
-
-            for (int i = 0; i < count; i++)
+            for (int j = 0; j < 10; j++)
             {
-                var attributes = new HashSet<BaseAttributeValue>();
-                attributes.Add(new IntAttributeValue() { AttributeId = 2, Values = Enumerable.Range(0, random.Next() % 10 + 1).ToHashSet() });
-                attributes.Add(new StringAttributeValue() { AttributeId = 3, Values = Enumerable.Range(0, random.Next() % 10 + 1).Select(n => n.ToString()).ToHashSet() });
-
-                Guid guid = Guid.NewGuid();
-                var request = new AddEntityRequest()
+                for (int i = 1; i < 6; i++)
                 {
-                    Instance = new EntityInstance()
-                    {
-                        AttributeValues = attributes,
-                        ElementId = (long)random.Next() % 3,
-                        Id = guid
-                    },
-                    _key = guid
-                };
+                    Console.WriteLine(i);
+                    DataGenerator dataGenerator = new DataGenerator((int)Math.Pow(10, i), (int)Math.Pow(10, i) * 4);
+                    dataGenerator.Generate();
 
-                requests.Add(request);
+                    await ArangoDBBenchmark(dataGenerator);
+                }
             }
+        }
 
-            var tasks = new List<Task>();
+        private static async Task ArangoDBBenchmark(DataGenerator dataGenerator)
+        {
+            var serviceProvider = GetServiceCollection(dataGenerator)
+                .AddArangoDB()
+                .BuildServiceProvider();
 
-            Console.WriteLine("start!");
-            stopwatch.Start();
-           await repository.AddRangeAsync<AddEntityRequest, Guid>(requests);
+            await Benchmark(serviceProvider, "ArangoDb");
+        }
 
-            stopwatch.Stop();
+        private static async Task Benchmark(ServiceProvider serviceProvider, string database)
+        {
+            var manager = serviceProvider.GetService<BenchmarkManager>();
+            await manager.BenchmarkAsync(database);
+        }
 
-            Console.WriteLine(stopwatch.Elapsed);
+        private static IServiceCollection GetServiceCollection(DataGenerator dataGenerator)
+        {
+            return new ServiceCollection()
+                            .AddSingleton(dataGenerator.EntityInstances)
+                            .AddSingleton(dataGenerator.LinkInstances)
+                            .AddSingleton<AddRangeBenchmark>()
+                            .AddSingleton<DeleteBenchmark>()
+                            .AddSingleton<GetBenchmark>()
+                            .AddSingleton<KShortestPathsBenchmark>()
+                            .AddSingleton<SearchBenchmark>()
+                            .AddSingleton<ShortestPathBenchmark>()
+                            .AddSingleton<UpdateBenchmark>()
+                            .AddSingleton<BenchmarkManager>();
         }
     }
 }

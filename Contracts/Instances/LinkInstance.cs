@@ -7,8 +7,8 @@ namespace ThesisProject.Contracts.Instances
 {
     public class LinkInstance : BaseInstance
     {
-        public EntityInstance From { get; set; }
+        public Guid From { get; set; }
 
-        public EntityInstance To { get; set; }
+        public Guid To { get; set; }
     }
 }

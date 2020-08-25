@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ThesisProject.Contracts
 {
-    public abstract class BaseAttributeValue
+    public class BaseAttributeValue
     {
         public long AttributeId { get; set; }
 

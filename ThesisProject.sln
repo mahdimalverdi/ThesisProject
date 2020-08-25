@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThesisProject", "ThesisProject\ThesisProject.csproj", "{B16086E6-7B68-4544-86D1-CC3513953ABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThesisProject", "ThesisProject\ThesisProject.csproj", "{B16086E6-7B68-4544-86D1-CC3513953ABC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstraction", "Abstraction\Abstraction.csproj", "{ED6DBDC4-229C-4DE3-8AAA-303DCFDF6D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstraction", "Abstraction\Abstraction.csproj", "{ED6DBDC4-229C-4DE3-8AAA-303DCFDF6D99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{6C57C6EE-D808-4A72-AA32-6472C22EDB15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{6C57C6EE-D808-4A72-AA32-6472C22EDB15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArangoDB", "ArangoDB\ArangoDB.csproj", "{DC33E5D8-9D61-47DB-A6C6-48C1D5E9BD6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArangoDB", "ArangoDB\ArangoDB.csproj", "{DC33E5D8-9D61-47DB-A6C6-48C1D5E9BD6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{98E302F8-5C28-4EFA-B2B1-124E55CEC68F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DC33E5D8-9D61-47DB-A6C6-48C1D5E9BD6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC33E5D8-9D61-47DB-A6C6-48C1D5E9BD6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC33E5D8-9D61-47DB-A6C6-48C1D5E9BD6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98E302F8-5C28-4EFA-B2B1-124E55CEC68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E302F8-5C28-4EFA-B2B1-124E55CEC68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E302F8-5C28-4EFA-B2B1-124E55CEC68F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E302F8-5C28-4EFA-B2B1-124E55CEC68F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
